@@ -5,7 +5,8 @@ class Person {
     static hasMany = [
         identifiers:Identifier,
         names:Name,
-        nickNames:NickName
+        nickNames:NickName,
+        biodemographics:Biodemographic
     ]
     static mapping = {
         id generator: 'uuid'

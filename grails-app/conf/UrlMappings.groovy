@@ -7,8 +7,11 @@ class UrlMappings {
                 "/identifierType/$name"(controller:"identifier",parseRequest: true){ 
                     action = [GET:"getIdentifierType", PUT:"addIdentifierType", DELETE:"error", POST:"error"] 
                 } 
-                "/name/$personId"(controller:"identifier",parseRequest: true){ 
+                "/name/$personId"(controller:"name",parseRequest: true){ 
                     action = [GET:"getNames", PUT:"addName", DELETE:"error", POST:"error"] 
+                } 
+                "/Biodemographic/$personId"(controller:"biodemographic",parseRequest: true){ 
+                    action = [GET:"getBiodemographics", PUT:"addBiodemographic", DELETE:"error", POST:"error"] 
                 } 
                 "/source/$name"(controller:"source",parseRequest: true){ 
                     action = [GET:"getSource", PUT:"addSource", DELETE:"error", POST:"error"] 

@@ -4,7 +4,8 @@ class Source {
     String name
     static hasMany = [
         identifiers:Identifier,
-        names: Name
+        names: Name,
+        biodemographics:Biodemographic
     ]
     static constraints = {
         name(   
