@@ -11,6 +11,8 @@ import grails.converters.JSON
 
 
 class Identifier {
+    Date dateCreated
+    Date lastUpdated    
     String value
     static belongsTo = [ 
         identifierType: IdentifierType 
@@ -48,6 +50,7 @@ class Identifier {
         )        
     }
     static mapping = {
+        autoTimestamp true
     	value type: GormEncryptedStringType
     }
     static List findMatchingIdentifiersWithType(String val, IdentifierType identifierType,String match = "EXACT") {
@@ -63,24 +66,16 @@ class Identifier {
                     def identifier = rs.get()
                     switch(stringMatchEvaluationEnum) {
                         case StringMatchEvaluationEnum.EXACT: 
-                            if(val.equalsIgnoreCase(identifier.value.get(0))) {
-                                result << identifier
-                            }
+                            if(val.equalsIgnoreCase(identifier.value.get(0))) result << identifier
                             break
-                        case StringMatchEvaluationEnum.STARTSWITH:                             
-                            if(identifier.value.get(0).toLowerCase().startsWith(val.toLowerCase())) {
-                                result << identifier
-                            }
+                        case StringMatchEvaluationEnum.STARTSWITH:    
+                            if(identifier.value.get(0).toLowerCase().startsWith(val.toLowerCase())) result << identifier
                             break
                         case StringMatchEvaluationEnum.ENDSWITH:                             
-                            if(identifier.value.get(0).toLowerCase().endsWith(val.toLowerCase())) {
-                                result << identifier
-                            }
+                            if(identifier.value.get(0).toLowerCase().endsWith(val.toLowerCase())) result << identifier
                             break
                         case StringMatchEvaluationEnum.CONTAINS:                             
-                            if(identifier.value.get(0).toLowerCase().contains(val.toLowerCase())) {
-                                result << identifier
-                            }
+                            if(identifier.value.get(0).toLowerCase().contains(val.toLowerCase())) result << identifier
                             break
                     }
                 }
