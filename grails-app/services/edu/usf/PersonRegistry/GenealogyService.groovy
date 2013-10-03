@@ -1,7 +1,8 @@
 package edu.usf.PersonRegistry
 
 class GenealogyService {
-
+    static transactional = true
+    def grailsApplication
     def exportGenealogy() {
         return [
             genealogy: Genealogy.createCriteria().list(sort: 'realname', order:'desc') {
