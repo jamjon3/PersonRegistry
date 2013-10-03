@@ -2,7 +2,10 @@ package edu.usf.PersonRegistry
 
 class Source {
     String name
-    static hasMany = [identifiers:Identifier]
+    static hasMany = [
+        identifiers:Identifier,
+        names: Name
+    ]
     static constraints = {
         name(   
                 blank: false,
