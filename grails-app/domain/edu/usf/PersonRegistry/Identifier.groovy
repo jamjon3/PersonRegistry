@@ -12,8 +12,13 @@ import grails.converters.JSON
 
 class Identifier {
     String value
-    static belongsTo = [ identifierType: IdentifierType ]
-    static hasOne = [ person: Person ]
+    static belongsTo = [ 
+        identifierType: IdentifierType 
+    ]
+    static hasOne = [ 
+        person: Person,
+        source: Source
+    ]
     static constraints = {
         value(   
              blank: false,
