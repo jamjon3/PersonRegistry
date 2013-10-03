@@ -1,11 +1,12 @@
 class UrlMappings {
 
 	static mappings = {
-		"/$controller/$action?/$id?"{
-			constraints {
-				// apply constraints here
-			}
-		}
+                "/person"(controller:"ruleSet",parseRequest: true){ 
+                    action = [GET:"error", PUT:"addPerson", DELETE:"error", POST:"error"] 
+                } 
+                "/identifierType/$name"(controller:"ruleSet",parseRequest: true){ 
+                    action = [GET:"getIdentifierType", PUT:"addIdentifierType", DELETE:"error", POST:"error"] 
+                } 
 
 		"/"(view:"/index")
 		"500"(view:'/error')
