@@ -10,9 +10,9 @@ class SourceService {
                 name: name.trim()
             ] as Source
             if(!source.save(failOnError:false, flush: true, insert: true, validate: true)) {
-                return [ error : "Name value '${source.errors.fieldError.rejectedValue}' rejected" ]
+                return [ error : "'${source.errors.fieldError.field}' value '${source.errors.fieldError.rejectedValue}' rejected" ]
             } else {
-                return [ source: source ]
+                return [ source: source.name ]
             }
         }
         return [ error: "You must supply a name" ]
@@ -22,7 +22,7 @@ class SourceService {
         if(!!name) {
             def source = Source.findByName(name.trim())
             if(!!source) {
-                return [ source: source ]
+                return [ source: source.name ]
             }
             return [ error : "Source named ${name} not found!"]
         }
