@@ -4,6 +4,7 @@ import grails.converters.*
 import edu.usf.PersonRegistry.Identifier
 import edu.usf.PersonRegistry.IdentifierType
 import edu.usf.PersonRegistry.Person
+import edu.usf.PersonRegistry.Source
 import javax.crypto.Cipher
 import java.security.NoSuchAlgorithmException
 import org.hibernate.ScrollMode
@@ -16,6 +17,7 @@ class BootStrap {
     // def quartzScheduler
     def identifierService
     def personService
+    def sourceService
 
     def init = { servletContext ->
         
@@ -31,11 +33,14 @@ class BootStrap {
         
         println identifierService.addIdentifierType("ssn") as JSON
         def identifierType = identifierService.getIdentifierType("ssn").identifierType
-        def person = personService.addPerson().person
-        def identifier = new Identifier(value:"12345667", person:person)
+        def personId = personService.addPerson().personId
+        def person = Person.get(personId)
+        def sourceName = sourceService.addSource("bogus").source
+        def source = Source.findByName(sourceName)
+        def identifier = new Identifier(value:"12345667", person:person, source:source)
         identifierType.addToIdentifiers(identifier)
         if(!identifierType.save(failOnError:false, flush: true, insert: true, validate: true)) {
-            println "Name value '${identifierType.errors.fieldError.rejectedValue}' rejected" 
+            println "'${identifierType.errors.fieldError.field}' value '${identifierType.errors.fieldError.rejectedValue}' rejected" 
         }
 //        identifierType.addToIdentifiers(new Identifier(value:"12345667", person:person))
 //        if(!identifierType.save(failOnError:false, flush: true, insert: true, validate: true)) {
