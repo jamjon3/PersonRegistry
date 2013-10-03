@@ -11,7 +11,7 @@ class IdentifierService {
                 validator: (!!validator)?validator.trim():""
             ] as IdentifierType
             if(!identifierType.save(failOnError:false, flush: true, insert: true, validate: true)) {
-                return [ error : "Name value '${identifierType.errors.fieldError.rejectedValue}' rejected" ]
+                return [ error : "'${identifierType.errors.fieldError.field}' value '${identifierType.errors.fieldError.rejectedValue}' rejected" ]
             } else {
                 return [ identifierType: identifierType ]
             }
