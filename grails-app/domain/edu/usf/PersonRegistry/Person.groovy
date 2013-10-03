@@ -1,7 +1,15 @@
 package edu.usf.PersonRegistry
 
 class Person {
-    static hasMany = [identifiers:Identifier]
+    String id
+    static hasMany = [
+        identifiers:Identifier,
+        names:Name,
+        nickNames:NickName
+    ]
+    static mapping = {
+        id generator: 'uuid'
+    }
     static constraints = {
     }
 }
