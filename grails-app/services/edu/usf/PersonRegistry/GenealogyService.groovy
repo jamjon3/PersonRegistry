@@ -1,5 +1,7 @@
 package edu.usf.PersonRegistry
 
+import org.hibernate.criterion.CriteriaSpecification
+
 class GenealogyService {
     static transactional = true
     def grailsApplication
