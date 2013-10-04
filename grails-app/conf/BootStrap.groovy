@@ -5,6 +5,7 @@ import edu.usf.PersonRegistry.Identifier
 import edu.usf.PersonRegistry.IdentifierType
 import edu.usf.PersonRegistry.Person
 import edu.usf.PersonRegistry.Source
+import edu.usf.PersonRegistry.Genealogy
 import javax.crypto.Cipher
 import java.security.NoSuchAlgorithmException
 import org.hibernate.ScrollMode
@@ -18,11 +19,11 @@ class BootStrap {
     def identifierService
     def personService
     def sourceService
+    def genealogyService
 
     def init = { servletContext ->
-        
+        // Testing Java for AES Strength (must be "unlimited" and > 128)
         int allowedKeyLength = 0;
-
         try {
           allowedKeyLength = Cipher.getMaxAllowedKeyLength("AES");
         } catch (NoSuchAlgorithmException e) {
@@ -30,6 +31,9 @@ class BootStrap {
         }
 
         System.out.println("The allowed key length for AES is: " + allowedKeyLength);
+        // Testing if the Genealogy table needs initializing with default data
+        if(!Genealogy.count()) genealogyService.importGenealogy(JSON.parse(new File('src/groovy/edu/usf/PersonRegistry/Default', 'GenealogyData.json').text))
+        
         
         println identifierService.addIdentifierType("ssn") as JSON
         def identifierType = identifierService.getIdentifierType("ssn").identifierType
@@ -42,6 +46,13 @@ class BootStrap {
         if(!identifierType.save(failOnError:false, flush: true, insert: true, validate: true)) {
             println "'${identifierType.errors.fieldError.field}' value '${identifierType.errors.fieldError.rejectedValue}' rejected" 
         }
+//        def genealogyData = new GenealogyData()
+//        genealogyData.setupNicknameMatch()
+//        genealogyData.setupNicknameMatchPart2()
+//        def f1= new File('GenealogyData.json')
+//        f1 << (genealogyService.exportGenealogy() as JSON).toString(true)
+        
+        // def o = JSON.parse(new File('Samples/import.json').text); // Parse a JSON String
 //        identifierType.addToIdentifiers(new Identifier(value:"12345667", person:person))
 //        if(!identifierType.save(failOnError:false, flush: true, insert: true, validate: true)) {
 //            println "Name value '${identifierType.errors.fieldError.rejectedValue}' rejected" 
